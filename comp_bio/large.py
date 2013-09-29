@@ -1,6 +1,7 @@
 import random
 import copy
 import time
+import pdb
 
 n_conf = 0 	##Stores the number of conformations found for a particular string.
 path=[] 			##Stores the path to be followed for a particular conformation.
@@ -26,43 +27,52 @@ count += 1 							  ##and increments the count by 1. Count is incremented everyt
 									  ##a letter from the string is entered into the lattice.
 directions = 'UDLR'
 
-def mat_dir(s):
-	## This function updates the matrix. It takes two variables as arguments.
-	global matrix, xpos, ypos, count
-	if s=='U':
-		if matrix[ypos-1][xpos] == '.':
-			matrix[ypos-1][xpos] = in_string[count]
-			ypos -= 1
-			return 0
-		return 1
-	elif s=='D':
-		if matrix[ypos+1][xpos] == '.':
-			matrix[ypos+1][xpos] = in_string[count]
-			ypos += 1
-			return 0
-		return 1
-	elif s=='L':
-		if matrix[ypos][xpos-1] == '.':
-			matrix[ypos][xpos-1] = in_string[count]
-			xpos -= 1
-			return 0
-		return 1
-	elif s=='R':
-		if matrix[ypos][xpos+1] == '.':
-			matrix[ypos][xpos+1] = in_string[count]
-			xpos += 1
-			return 0
-		return 1
+def initialize(size=100):
+	global matrix, in_string, xpos, ypos, count, conformations
+	i = 0
+	while i < size:
+		ypos = xpos = length
+		matrix[ypos][xpos] = in_string[0]
+		j = 1
+		conformations.append('')	
+		while j<length:
+			flag = 1
+			while flag>0:
+				s = random.choice(directions)
+				if s=='U':
+					if matrix[ypos-1][xpos] == '.':
+						matrix[ypos-1][xpos] = in_string[j]
+						ypos -= 1
+						conformations[i] += s
+						flag = 0
+				elif s=='D':
+					if matrix[ypos+1][xpos] == '.':
+						matrix[ypos+1][xpos] = in_string[j]
+						ypos += 1
+						conformations[i] += s
+						flag = 0
+				elif s=='L':
+					if matrix[ypos][xpos-1] == '.':
+						matrix[ypos][xpos-1] = in_string[j]
+						xpos -= 0
+						conformations[i] += s
+						flag = 0
+				elif s=='R':
+					if matrix[ypos][xpos+1] == '.':
+						matrix[ypos][xpos+1] = in_string[j]
+						xpos += 1
+						conformations[i] += s
+						flag = 0
+			j += 1
+		#pdb.set_trace()
+		print conformations[i]
+		i += 1
 
-def initialize(size=1000):
-	global matrix, in_string, xpos, ypos
-	for i in xrange(size):
-		
-		matrix[ypos][xpos] = in_string[count]
-		count += 1
-		for i in xrange(1, length):
-			s = random.choice(directions)
-			flag = mat_dir()
+initialize(5)
+print conformations
+
+
+
 
 
 
