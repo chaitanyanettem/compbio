@@ -22,8 +22,8 @@ count = 0	##Temporary variable used to maintain a count of processed letters
 xpos = ypos = length##xpos and ypos denote the current position in the lattice. Initialized
 					##to the center of the lattice.
 
-matrix[ypos][xpos] = in_string[count] ##Enters the first letter of the string into the lattice
-count += 1 							  ##and increments the count by 1. Count is incremented everytime 
+#matrix[ypos][xpos] = in_string[count] ##Enters the first letter of the string into the lattice
+#count += 1 							  ##and increments the count by 1. Count is incremented everytime 
 									  ##a letter from the string is entered into the lattice.
 directions = 'UDLR'
 
@@ -32,6 +32,7 @@ def initialize(size=100):
 	i = 0
 	while i < size:
 		ypos = xpos = length
+		matrix = [['.' for x in xrange(side)] for x in xrange(side)]
 		matrix[ypos][xpos] = in_string[0]
 		j = 1
 		conformations.append('')	
@@ -66,9 +67,12 @@ def initialize(size=100):
 			j += 1
 		#pdb.set_trace()
 		print conformations[i]
+		for k in xrange(side):
+			matrix[k]
+		print "\n"
 		i += 1
 
-initialize(5)
+initialize(1000)
 print conformations
 
 
