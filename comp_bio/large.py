@@ -8,7 +8,8 @@ path=[] 			##Stores the path to be followed for a particular conformation.
 save = [] 			##Stores the conformation with the minimum energy.
 min_energy = 1 		##Stores the current minimum energy.
 min_path = [] 
-in_string = raw_input("Enter string:")
+in_string = raw_input("Enter string: ")
+init_pop = int(raw_input("Enter size of initial population: "))
 in_string = in_string.upper()
 length = len(in_string)
 side = 2*length + 1 
@@ -55,7 +56,7 @@ def initialize(size=100):
 				elif s=='L':
 					if matrix[ypos][xpos-1] == '.':
 						matrix[ypos][xpos-1] = in_string[j]
-						xpos -= 0
+						xpos -= 1
 						conformations[i] += s
 						flag = 0
 				elif s=='R':
@@ -65,14 +66,14 @@ def initialize(size=100):
 						conformations[i] += s
 						flag = 0
 			j += 1
+			
 		#pdb.set_trace()
-		print conformations[i]
 		for k in xrange(side):
-			matrix[k]
+			print matrix[k]
 		print "\n"
 		i += 1
 
-initialize(1000)
+initialize(init_pop)
 print conformations
 
 
