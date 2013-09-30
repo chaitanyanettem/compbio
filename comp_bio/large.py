@@ -27,54 +27,89 @@ xpos = ypos = length##xpos and ypos denote the current position in the lattice. 
 #count += 1 							  ##and increments the count by 1. Count is incremented everytime 
 									  ##a letter from the string is entered into the lattice.
 directions = 'UDLR'
-
+energies = {}
 def initialize(size=100):
-	global matrix, in_string, xpos, ypos, count, conformations
+	global matrix, in_string, xpos, ypos, count, conformations, energies
 	i = 0
 	while i < size:
 		ypos = xpos = length
 		matrix = [['.' for x in xrange(side)] for x in xrange(side)]
 		matrix[ypos][xpos] = in_string[0]
 		j = 1
-		conformations.append('')	
+		conformations.append('')
+		energy = 0	
 		while j<length:
 			flag = 1
 			while flag>0:
 				s = random.choice(directions)
 				if s=='U':
 					if matrix[ypos-1][xpos] == '.':
-						matrix[ypos-1][xpos] = in_string[j]
 						ypos -= 1
+						matrix[ypos][xpos] = in_string[j]
+						if in_string[count] == 'W':
+			##Checking for W-W contacts:
+							if matrix[ypos-1][xpos] == 'W':
+								energy -= 1
+							if matrix[ypos][xpos+1] == 'W':
+								energy -= 1
+							if matrix[ypos][xpos-1] == 'W':
+								energy -= 1
 						conformations[i] += s
 						flag = 0
 				elif s=='D':
 					if matrix[ypos+1][xpos] == '.':
-						matrix[ypos+1][xpos] = in_string[j]
 						ypos += 1
+						matrix[ypos][xpos] = in_string[j]
+						if in_string[count] == 'W':
+						##Checking for W-W contacts:
+							if matrix[ypos][xpos+1] == 'W':
+								energy -= 1
+							if matrix[ypos+1][xpos] == 'W':
+								energy -= 1
+							if matrix[ypos][xpos-1] == 'W':
+								energy -= 1
 						conformations[i] += s
 						flag = 0
 				elif s=='L':
 					if matrix[ypos][xpos-1] == '.':
-						matrix[ypos][xpos-1] = in_string[j]
 						xpos -= 1
+						matrix[ypos][xpos] = in_string[j]
+						if in_string[count] == 'W':
+						##Checking for W-W contacts:
+							if matrix[ypos-1][xpos] == 'W':
+								energy -= 1
+							if matrix[ypos][xpos-1] == 'W':
+								energy -= 1
+							if matrix[ypos+1][xpos] == 'W':
+								energy -= 1
 						conformations[i] += s
 						flag = 0
 				elif s=='R':
 					if matrix[ypos][xpos+1] == '.':
-						matrix[ypos][xpos+1] = in_string[j]
 						xpos += 1
+						matrix[ypos][xpos] = in_string[j]
+						if in_string[count] == 'W':
+						##Checking for W-W contacts:
+							if matrix[ypos-1][xpos] == 'W':
+								energy -= 1
+							if matrix[ypos][xpos+1] == 'W':
+								energy -= 1
+							if matrix[ypos+1][xpos] == 'W':
+								energy -= 1
 						conformations[i] += s
 						flag = 0
 			j += 1
-			
+		energies[conformations[i]]	= energy
 		#pdb.set_trace()
 		for k in xrange(side):
 			print matrix[k]
 		print "\n"
 		i += 1
 
+
 initialize(init_pop)
 print conformations
+print energies
 
 
 
